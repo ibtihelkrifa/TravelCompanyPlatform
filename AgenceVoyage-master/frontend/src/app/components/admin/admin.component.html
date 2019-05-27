@@ -1,0 +1,33 @@
+<div class="admin-panel">
+
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <i class="material-icons header-icon">account_circle </i>
+      </div>
+      <mat-card-title>Panel Administrateur</mat-card-title>
+      <mat-card-subtitle>Gestion des entités</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+      <mat-tab-group>
+        <mat-tab label="Villes">
+          <app-ville></app-ville>
+        </mat-tab>
+        <mat-tab label="Vols">
+          <app-vol></app-vol>
+        </mat-tab>
+        <mat-tab label="Hébérgement">
+          <app-hotel></app-hotel>
+        </mat-tab>
+        <mat-tab label="Transport">
+          <app-transport></app-transport>
+        </mat-tab>
+        <mat-tab label="Réservations">
+          <app-reservation></app-reservation>
+        </mat-tab>
+      </mat-tab-group>
+
+    </mat-card-content>
+  </mat-card>
+</div>

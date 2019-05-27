@@ -1,0 +1,28 @@
+.toolbar-content  {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.toolbar-content a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.toolbar-content-right {
+  display: flex;
+}
+
+.toolbar-content-right div {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.header-item {
+  font-size: 15px;
+}
+
+.header-item:hover {
+  cursor: pointer;
+  text-decoration: underline !important;
+}

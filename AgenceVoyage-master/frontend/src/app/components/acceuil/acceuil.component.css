@@ -1,0 +1,81 @@
+.acceuil-container {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 8% 10%;
+}
+
+.item-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.example-card {
+  max-width: 300px;
+  margin : 10px;
+}
+
+i {
+  font-size: 30px;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.search-card {
+  width: 66%;
+  margin: 10px;
+}
+
+.card-image {
+  width: 332px;
+  height: 300px;
+}
+
+.description-container {
+  display: flex;
+  overflow: hidden;
+  max-height: 300px;
+  margin: 15px 0;
+}
+
+.modal-card-image {
+  width: 332px;
+  height: 300px;
+  border-radius: 5px;
+}
+
+.description {
+  flex:2;
+  margin: 0px 30px;
+}
+
+.desc-header {
+  display: flex;
+  align-items: baseline;
+}
+
+.desc-header em {
+  margin: 0 5px;
+}
+
+.descLoading {
+  display: flex;
+  justify-content: center;
+}
+
+.form-container {
+  display: flex;
+  margin: 20px 50px;
+}
+
+.column {
+  flex: 1;
+  margin: 0 20px;
+}

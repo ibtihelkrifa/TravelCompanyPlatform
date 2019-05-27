@@ -1,0 +1,17 @@
+<mat-toolbar color="primary">
+  <div class="toolbar-content">
+    <div>
+      <div>
+        <a [routerLink]="['/']">Agence Voyage</a>
+      </div>
+    </div>
+
+    <div class="toolbar-content-right">
+      <div>
+        <a class="header-item" [routerLink]="['/Login']">Admin Panel</a>
+      </div>
+      <div class="header-item" *ngIf="authState" (click)="logout()">Se déconnecter</div>
+    </div>
+  </div>
+
+</mat-toolbar>

@@ -1,0 +1,55 @@
+<table mat-table [dataSource]="reservations$">
+
+  <ng-container matColumnDef="actions">
+    <th width='15%' mat-header-cell *matHeaderCellDef> Actions </th>
+
+    <td mat-cell *matCellDef="let reservation">
+      <div class="button-rows">
+        <button title="Supprimer" mat-button (click)="removeReservation(reservation)" color="warn"><i class="material-icons">remove_circle_outline</i></button>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="ville">
+    <th mat-header-cell *matHeaderCellDef> Ville </th>
+    <td mat-cell *matCellDef="let reservation"> {{reservation.flight.city.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="prix">
+    <th mat-header-cell *matHeaderCellDef> Prix </th>
+    <td mat-cell *matCellDef="let reservation"> {{reservation.flight.price}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="personscount">
+    <th mat-header-cell *matHeaderCellDef> Nombre de personne </th>
+    <td mat-cell *matCellDef="let reservation"> {{reservation.personsCount}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="starting">
+    <th mat-header-cell *matHeaderCellDef> Date de début </th>
+    <td mat-cell *matCellDef="let reservation"> {{reservation.startingDate}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="duration">
+    <th mat-header-cell *matHeaderCellDef> Durée </th>
+    <td mat-cell *matCellDef="let reservation"> {{reservation.duration}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="hotel">
+    <th mat-header-cell *matHeaderCellDef> Durée </th>
+    <td mat-cell *matCellDef="let reservation"> {{reservation.hotel.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="transport">
+    <th mat-header-cell *matHeaderCellDef> Durée </th>
+    <td mat-cell *matCellDef="let reservation"> {{reservation.transport.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="client">
+    <th mat-header-cell *matHeaderCellDef> Client </th>
+    <td mat-cell *matCellDef="let reservation"> {{reservation.user.email}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

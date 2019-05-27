@@ -1,0 +1,28 @@
+<div class="login-form">
+  <mat-card class="example-card">
+    <mat-card-content class="login-form-content">
+
+      <h1>Connection</h1>
+
+      <form class="m-t" [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="example-full-width">
+          <input matInput formControlName="username" placeholder="Email">
+          <mat-error *ngIf="signInForm.get('username').invalid && signInForm.get('username').touched">
+            Adresse mail non valide
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input matInput type="password" formControlName="password" placeholder="Mot de Passe">
+          <mat-error *ngIf="signInForm.get('password').invalid && signInForm.get('password').touched">
+            Mot de passe doit être au moins 6 charactères
+          </mat-error>
+        </mat-form-field>
+
+        <p id="alert" style="color: #ff0000;">{{alert}}</p>
+        <button mat-button color="primary">Se Connecter</button>
+      </form>
+
+    </mat-card-content>
+  </mat-card>
+</div>

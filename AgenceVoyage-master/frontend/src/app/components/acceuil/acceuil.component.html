@@ -1,0 +1,236 @@
+<div class="acceuil-container">
+
+  <div *ngIf="vols$ else loading" class="container">
+
+    <mat-card class="search-card">
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput [(ngModel)]="searchText" placeholder="Recherche">
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="item-container">
+      <ng-container *ngFor="let v of vols$ | filter : searchText ">
+
+        <mat-card class="example-card">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image">
+              <i class="material-icons">place </i>
+            </div>
+            <mat-card-title>{{v.city.name}}</mat-card-title>
+          </mat-card-header>
+          <img mat-card-image class="card-image" src="{{v.city.image_url}}" alt="{{v.city.name}}">
+          <mat-card-content>
+            <p>
+              The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+              A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+              bred for hunting.
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <span>{{v.price}} €</span>
+            <button mat-button (click)="openModal(v)">+ Détails</button>
+          </mat-card-actions>
+        </mat-card>
+
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </ng-template>
+
+</div>
+
+<ngx-smart-modal #itemModal identifier="myModal">
+  <div class="modal-container" *ngIf="vol">
+    <form method="get" class="form-horizontal" role="form" #ff="ngForm" (ngSubmit)="onSubmitf(ff)">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+
+        <div class="description-container">
+          <div class="image-container">
+            <img class="modal-card-image" src="{{vol.city.image_url}}" alt="{{vol.city.name}}">
+          </div>
+          <div class="description">
+            <div class="desc-header">
+              <h2>{{vol.city.name}}</h2>
+              <em>A partir </em>
+              <h4> {{vol.price}}€</h4>
+            </div>
+            <p *ngIf="vol.city.description else descLoading">{{vol.city.description}}</p>
+            <ng-template #descLoading>
+              <div class="descLoading">
+                <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+
+        <mat-expansion-panel (opened)="showMap = true" (closed)="showMap = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Carte
+            </mat-panel-title>
+            <mat-panel-description>
+              Emplacement
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div *ngIf="showMap" [innerHTML]="renderMap(vol.city.name)"></div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Hébérgement
+            </mat-panel-title>
+            <mat-panel-description>
+              Choisissez votre hébérgement
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-form-field>
+            <input matInput (keyup)="hotelFilter($event.target.value)" placeholder="Recherche">
+          </mat-form-field>
+
+          <table mat-table [dataSource]="hotels$">
+
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectHotel(row) : null" [checked]="hotelSelection.isSelected(row)">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Nom </th>
+              <td mat-cell *matCellDef="let hotel"> {{hotel.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef> Prix </th>
+              <td mat-cell *matCellDef="let hotel"> {{hotel.price}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="city">
+              <th mat-header-cell *matHeaderCellDef> Ville </th>
+              <td mat-cell *matCellDef="let hotel"> {{hotel.city.name}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="hotelDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: hotelDisplayedColumns;"></tr>
+          </table>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Transports
+            </mat-panel-title>
+            <mat-panel-description>
+              Choisissez votre transports
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-form-field>
+            <input matInput (keyup)="transportFilter($event.target.value)" placeholder="Recherche">
+          </mat-form-field>
+
+          <table mat-table [dataSource]="transport$">
+
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectTransport(row) : null"
+                  [checked]="tranportSelection.isSelected(row)">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Moyen </th>
+              <td mat-cell *matCellDef="let transport"> {{transport.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="place">
+              <th mat-header-cell *matHeaderCellDef> Nombre de place </th>
+              <td mat-cell *matCellDef="let transport"> {{transport.placeCount}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef> Nombre de place </th>
+              <td mat-cell *matCellDef="let transport"> {{transport.price}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="transportsDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: transportsDisplayedColumns;"></tr>
+          </table>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Réservation
+            </mat-panel-title>
+            <mat-panel-description>
+              Réservez maintenant
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="form-container">
+            <div class="column">
+              <mat-form-field>
+                <input matInput placeholder="Nom" name="name" ngModel required #name="ngModel">
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput placeholder="Prénom" name="lastname" ngModel required #lastname="ngModel">
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput placeholder="Email" name="email" ngModel required #email="ngModel">
+              </mat-form-field>
+
+              <mat-form-field>
+                <select matNativeControl placeholder="Sexe" [(ngModel)]="value1" name="sex">
+                  <option *ngFor="let s of sexe" [value]="s">{{s}}</option>
+                </select>
+              </mat-form-field>
+
+            </div>
+            <div class="column">
+              <mat-form-field>
+                <input matInput placeholder="Nombre de personnes" type="number" name="count" ngModel required #count="ngModel">
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matNativeControl placeholder="Date Départ" type="date" name="date" ngModel required #date="ngModel">
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput placeholder="Durée" type="number" name="duration" ngModel required #duration="ngModel">
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+      </div>
+
+      <div class="modal-footer">
+        <button mat-button type="button" (click)="closeModal()">Annuler</button>
+        <button mat-button color="primary" type="submit">Réserver</button>
+      </div>
+
+    </form>
+  </div>
+</ngx-smart-modal>

@@ -1,0 +1,104 @@
+<table mat-table [dataSource]="transports$">
+
+  <ng-container matColumnDef="actions">
+    <th width='15%' mat-header-cell *matHeaderCellDef> Actions </th>
+
+    <td mat-cell *matCellDef="let transport">
+      <div class="button-rows">
+        <button title="Modifier" mat-button (click)="openModal('editModalTransport',transport)"><i class="material-icons">edit</i></button>
+        <button title="Supprimer" mat-button (click)="removeTransport(transport)" color="warn"><i class="material-icons">remove_circle_outline</i></button>
+      </div>
+
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Moyen </th>
+    <td mat-cell *matCellDef="let transport"> {{transport.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="place">
+    <th mat-header-cell *matHeaderCellDef> Nombre de place </th>
+    <td mat-cell *matCellDef="let transport"> {{transport.placeCount}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Nombre de place </th>
+    <td mat-cell *matCellDef="let transport"> {{transport.price}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<div class="bottom-button">
+  <button title="Modifier" mat-flat-button color="primary" (click)="openModal('createModalTransport')">
+    Ajouter Moyen Transport<i class="material-icons">add</i>
+  </button>
+</div>
+
+<ngx-smart-modal #itemModal1 identifier="createModalTransport">
+  <form method="get" class="form-horizontal" role="form" #ff="ngForm" (ngSubmit)="onCreateSubmit(ff)">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Ajouter moyen de transport</h4>
+    </div>
+    <div class="modal-body">
+
+      <mat-form-field>
+        <input matInput placeholder="Nom" name="name" ngModel required #name="ngModel">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Nombre de place" name="count" ngModel required #count="ngModel">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Prix" name="price" ngModel required #price="ngModel">
+      </mat-form-field>
+
+    </div>
+
+    <div class="modal-footer">
+      <button mat-button type="button" (click)="closeModal('createModalTransport')">Annuler</button>
+      <button mat-button color="primary" type="submit">Ajouter</button>
+    </div>
+
+  </form>
+</ngx-smart-modal>
+
+<ngx-smart-modal #itemModal identifier="editModalTransport">
+  <form method="get" class="form-horizontal" role="form" #f="ngForm" (ngSubmit)="onEditSubmit(f,transport.id)">
+    <div *ngIf="transport; else loading">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Modifier moyen de transport</h4>
+
+      </div>
+      <div class="modal-body">
+
+
+        <p>Moyen: {{transport.name}}</p>
+        <p>Place Count: {{transport.placeCount}}</p>
+        <p>Price: {{transport.price}}</p>
+
+        <mat-form-field>
+          <input matInput placeholder="Nom" name="name" ngModel="{{transport.name}}" required #name="ngModel">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Nombre de place" name="count" ngModel="{{transport.placeCount}}" required #count="ngModel">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Prix" name="price" ngModel="{{transport.price}}" required #price="ngModel">
+        </mat-form-field>
+
+      </div>
+
+      <div class="modal-footer">
+        <button mat-button type="button" (click)="closeModal('editModalTransport')">Annuler</button>
+        <button mat-button color="primary" type="submit">Modifier</button>
+      </div>
+
+    </div>
+  </form>
+</ngx-smart-modal>
